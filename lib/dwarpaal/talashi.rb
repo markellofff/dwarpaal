@@ -29,13 +29,13 @@ module Dwarpaal
     def call(env)
       puts 'request captured'
       request = Rack::Request.new(env)
+      RequestLog.log(request)
       allowed?(request) ? app.call(env) : rate_limit_exceeded(request)
     end
 
     protected
 
     def allowed?(request)
-      debugger
       today_count = RequestLog.count_on_day(Date.today, request.ip)
       return true if today_count <= options[:initial_max_hits]
       week_ago_count = RequestLog.count_on_day(Date.today-7, request.ip)
@@ -62,6 +62,7 @@ module Dwarpaal
     # @return [Array(Integer, Hash, #each)]
     def rate_limit_exceeded(request)
       options[:rate_limit_exceeded_callback].call(request) if options[:rate_limit_exceeded_callback]
+      headers = respond_to?(:retry_after) ? {'Retry-After' => retry_after.to_f.ceil.to_s} : {}
       http_error(options[:code] , options[:message] , headers)
     end
 
@@ -84,6 +85,10 @@ module Dwarpaal
     # @return [String]
     def http_status(code)
       [code, Rack::Utils::HTTP_STATUS_CODES[code]].join(' ')
+    end
+
+    def retry_after
+      86400 # after a day
     end
   end
 end
