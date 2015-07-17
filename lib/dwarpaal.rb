@@ -2,5 +2,5 @@ require "dwarpaal/version"
 
 module Dwarpaal
   autoload :Talashi, 'dwarpaal/talashi'
-  # Your code goes here...
+  autoload :RequestLog, 'dwarpaal/request_log'
 end

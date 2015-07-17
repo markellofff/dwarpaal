@@ -1,31 +1,24 @@
 # Dwarpaal
 
-TODO: Write a gem description
+This gem right now works only with rails
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'dwarpaal'
+gem 'dwarpaal', :github => 'ranupratapsingh/dwarpaal', :branch=>'master'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install dwarpaal
 
 ## Usage
 
-TODO: Write usage instructions here
+TO use this gem
 
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/dwarpaal/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+ 1. include it in Gemfile
+ 2. run bundle install
+ 3. run following command from rails root `rails generate migration CreateRequestLog ip_address:string c_date:date`
